@@ -10,7 +10,7 @@ const searchBar = document.querySelector(".search-bar");
 const searchButton = document.querySelector(".search button");
 
 // fetch weather
-let weather = {
+let weatherFunc = {
   apiKey: "8a74c4e4accfe78b12c415e4825fe008",
   fetchWeather: function (city) {
     fetch(
@@ -32,7 +32,7 @@ let weather = {
     const { name } = data;
     const { icon, description } = data.weather[0];
     const { temp, humidity } = data.main;
-    const { speed }  = data.wind;
+    const { speed } = data.wind;
 
     city.innerText = `Weather name is ${name}`;
     icon.src = `https://openweathermap.org/img/wn/${icon}.png`;
@@ -42,23 +42,30 @@ let weather = {
     wind.innerText = `Wind speed ${wind} km/h`;
     weather.classList.remove("loading");
     document.body.style.backgroundImage = `url('https://source.unsplash.com/1600x900/?${name})`;
-},
-  search: function() {
-      this.fetchWeather(searchBar.value);
-  }
+  },
+  search: function () {
+    this.fetchWeather(searchBar.value);
+  },
 };
 
 // saerch button was clicked
-searchButton.addEventListener("click", function() {
-    weather.search();
-})
+searchButton.addEventListener("click", function () {
+  weatherFunc.search();
+  reset();
+});
 
 // was clicked enter in search input
-searchButton.addEventListener("keyup", function(e) {
-    if (e.key === "enter") {
-        weather.search();
-    }
-})
+searchButton.addEventListener("keyup", function (e) {
+  if (e.keyCode === 13) {
+    weatherFunc.search();
+    reset();
+  }
+});
+
+// reset
+function reset() {
+  searchBar.value = "";
+}
 
 // default
-weather.fetchWeather("Qazax");
+weatherFunc.fetchWeather("Qazax");
