@@ -1,10 +1,10 @@
 // variables
-const city = document.querySelector(".city");
-const icon = document.querySelector(".icon");
-const description = document.querySelector(".description");
-const template = document.querySelector(".temp");
-const humidity = document.querySelector(".humidity");
-const wind = document.querySelector(".wind");
+const cityElement = document.querySelector(".city");
+const iconElement = document.querySelector(".icon");
+const descriptionElement = document.querySelector(".description");
+const tempElement = document.querySelector(".temp");
+const humidityElement = document.querySelector(".humidity");
+const windElement = document.querySelector(".wind");
 const weather = document.querySelector(".weather");
 const searchBar = document.querySelector(".search-bar");
 const searchButton = document.querySelector(".search button");
@@ -14,7 +14,7 @@ let weatherFunc = {
   apiKey: "8a74c4e4accfe78b12c415e4825fe008",
   fetchWeather: function (city) {
     fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${this.apiKey}`
+      `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${this.apiKey}&units=metric`
     )
       .then((response) => {
         if (!response.ok) {
@@ -34,12 +34,12 @@ let weatherFunc = {
     const { temp, humidity } = data.main;
     const { speed } = data.wind;
 
-    city.innerText = `Weather name is ${name}`;
-    icon.src = `https://openweathermap.org/img/wn/${icon}.png`;
-    description.innerText = description;
-    temp.innerText = `${temp} °C`;
-    humidity.innerText = `Humidity ${humidity} %`;
-    wind.innerText = `Wind speed ${wind} km/h`;
+    cityElement.innerText = `Weather for ${name}`;
+    iconElement.src = `https://openweathermap.org/img/wn/${icon}.png`;
+    descriptionElement.innerText = description;
+    tempElement.innerText = `${temp} °C`;
+    humidityElement.innerText = `Humidity ${humidity} %`;
+    windElement.innerText = `Wind speed ${speed} km/h`;
     weather.classList.remove("loading");
     document.body.style.backgroundImage = `url('https://source.unsplash.com/1600x900/?${name})`;
   },
@@ -55,7 +55,7 @@ searchButton.addEventListener("click", function () {
 });
 
 // was clicked enter in search input
-searchButton.addEventListener("keyup", function (e) {
+searchBar.addEventListener("keyup", function (e) {
   if (e.keyCode === 13) {
     weatherFunc.search();
     reset();
